@@ -1,5 +1,6 @@
 
 from crewai import Agent, Crew, Process, Task
+from typing import Any, Dict, List
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai_tools import (
