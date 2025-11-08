@@ -42,18 +42,20 @@ cv_analyzer_task:
 #--------------------------------------------------
 # Matcher Task
 #--------------------------------------------------
-matcher_task:
+job_matching_task:
   description: >
-    1. Use the DirectoryReadTool to list all text-based CV files from the directory {txt_files_path}.
-    2. Read its content using the FileReadTool.
-    3. Analyze and interpret the content using the cv_analyzer agent to extract, structure, and enrich all relevant details.
-    4. You should strictly follow the CandidateCV schema.
-    5. Write your evaluative insights in agent_assessment section.
-    6. If certain information is missing or unclear, the agent should infer it logically or leave.
-    7. after processing the CV, you should save it in {json_files_path}.
-    7. Once all CV files have been successfully processed and saved, return the word "Completed".
+    1. Use the DirectoryReadTool to list all candidate CV JSON files from the directory {json_files_path}.
+    2. For each CV file:
+       - Read and load its structured content using the FileReadTool.
+       - Compare the candidate’s profile data (skills, experience, and career level)
+         against available job descriptions in the knowledge base.
+       - Identify and rank the most suitable job opportunities for the candidate.
+       - Generate a structured match report in the JobMatchResult schema.
+    3. Save the resulting job match reports in the directory {matches_output_path},
+       using the same filename as the source CV file (changing the extension to .json).
+    4. Once all CVs are processed and match reports generated, return the word "Completed".
 
   expected_output: >
     Completed
 
-  agent: cv_analyzer
+  agent: job_matcher

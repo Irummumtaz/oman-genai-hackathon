@@ -254,3 +254,59 @@ class CandidateCV(BaseModel):
     
     # Metadata
     source_file: Optional[str] = Field(None, description="Original file name")
+
+
+#------------------------------------------------------------
+
+from pydantic import BaseModel, Field
+from typing import List, Literal
+
+
+class ScoreBreakdown(BaseModel):
+    """Detailed breakdown of match scoring"""
+    skills_score: float = Field(..., ge=0, le=40, description="Points from skills match (max 40)")
+    experience_score: float = Field(..., ge=0, le=30, description="Points from experience match (max 30)")
+    education_score: float = Field(..., ge=0, le=20, description="Points from education match (max 20)")
+    career_level_score: float = Field(..., ge=0, le=10, description="Points from career level fit (max 10)")
+
+
+class JobMatchResult(BaseModel):
+    """Result of matching a candidate CV against a job description"""
+    
+    # Basic Information
+    candidate_name: str = Field(..., description="Full name of the candidate")
+    job_title: str = Field(..., description="Job title being matched against")
+    
+    # Overall Score
+    overall_score: float = Field(..., ge=0, le=100, description="Total match score out of 100")
+    
+    # Score Breakdown
+    breakdown: ScoreBreakdown = Field(..., description="Detailed scoring breakdown by category")
+    
+    # Skills Analysis
+    skills_matched: List[str] = Field(default_factory=list, description="Required skills the candidate has")
+    skills_missing: List[str] = Field(default_factory=list, description="Required skills the candidate lacks")
+    skills_match_percentage: float = Field(..., ge=0, le=100, description="Percentage of required skills matched")
+    
+    # Experience Analysis
+    candidate_experience_years: float = Field(..., ge=0, description="Candidate's total years of experience")
+    required_experience_years: float = Field(..., ge=0, description="Required years of experience for job")
+    experience_gap: str = Field(..., description="Description of experience gap or fit")
+    
+    # Education & Career Level
+    education_match: bool = Field(..., description="Whether education requirements are met")
+    career_level_match: Literal["exact_match", "one_level_off", "two_plus_levels_off"] = Field(
+        ..., description="How well candidate's career level matches job"
+    )
+    
+    # Recommendation
+    recommendation: str = Field(
+        ..., 
+        min_length=10,
+        description="Brief 2-3 sentence recommendation summary"
+    )
+    
+    # Match Category (for classification)
+    match_category: Literal["strong_match", "moderate_match", "weak_match"] = Field(
+        ..., description="Overall match category: strong (≥80), moderate (60-79), weak (<60)"
+    )

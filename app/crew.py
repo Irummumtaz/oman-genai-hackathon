@@ -10,7 +10,7 @@ from crewai_tools import (
     DirectoryReadTool,
 )
 from app.tools.pdf_reader import PDFReaderTool
-from .model import CandidateCV
+from .model import CandidateCV, JobMatchResult
 from crewai.knowledge.source.json_knowledge_source import JSONKnowledgeSource
 
 
@@ -37,6 +37,7 @@ class HRCrew():
                 DirectoryReadTool(),
                 PDFReaderTool(),
             ],
+        function_calling_llm="gpt-4o-mini"
         )
     @agent
     def cv_analyzer(self) -> Agent:
@@ -49,7 +50,18 @@ class HRCrew():
                 FileWriterTool(),
             ],
         )
-    
+    @agent
+    def job_matcher(self) -> Agent:
+        return Agent(
+            config=self.agents_config['job_matcher'],
+            verbose=True,
+            tools=[
+                DirectoryReadTool(),
+                FileReadTool(),
+                FileWriterTool(),
+            ],
+            knowledge_sources=[self.job_sources],
+        )
     # ===================== TASKS =====================
     @task
     def cv_reader_task(self) -> Task:
@@ -70,7 +82,12 @@ class HRCrew():
             config=self.tasks_config['cv_analyzer_task'],
             output_json=CandidateCV
             )
-    
+    @task
+    def job_matching_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['job_matching_task'],
+            output_json=JobMatchResult
+            )
     # ===================== CREW =====================
     @crew
     def crew(self) -> Crew:

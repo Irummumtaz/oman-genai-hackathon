@@ -7,9 +7,10 @@ from app.tools.pdf_reader import PDFReaderTool
 
 def run():
 
-    inputs = {"pdf_files_path":"PDFCVs",
+    inputs = {"pdf_files_path":"CV",
               "txt_files_path": "preprocessed-CVs",
-              "json_files_path":"processed-CVs"
+              "json_files_path":"processed-CVs",
+              "matches_output_path":"job-matches-results"
               }    
     print(f"Running HRCrew with inputs: {inputs}")
     try:
