@@ -1,0 +1,60 @@
+{
+  "job_id": "JD-004",
+  "title": "Project Manager",
+  "department": "Product & Delivery",
+  "employment_type": "full-time",
+  "location": {
+    "country": "Germany",
+    "city": "Berlin",
+    "remote": true
+  },
+  "reporting_to": "Director of Product Delivery",
+  "summary": "We are seeking a dynamic Project Manager to oversee software development projects, coordinate cross-functional teams, and ensure timely delivery of product milestones with high quality.",
+  "responsibilities": [
+    "Plan, execute, and monitor software development projects from initiation to closure.",
+    "Manage project scope, timelines, and deliverables while maintaining communication with stakeholders.",
+    "Facilitate sprint planning, daily standups, and retrospectives in Agile teams.",
+    "Collaborate with engineering, design, and QA teams to resolve roadblocks.",
+    "Prepare and present project reports and performance metrics to leadership."
+  ],
+  "must_have_skills": [
+    "Agile Project Management",
+    "Scrum",
+    "Risk Management",
+    "Stakeholder Communication",
+    "Project Scheduling"
+  ],
+  "nice_to_have_skills": [
+    "JIRA",
+    "Confluence",
+    "Software Development Background",
+    "Data Analysis",
+    "Budget Management"
+  ],
+  "experience_required_years": 5,
+  "education_required": [
+    "Bachelor’s degree in Project Management, Business Administration, or related field"
+  ],
+  "certifications_required": [
+    "PMP or Certified Scrum Master (CSM)"
+  ],
+  "tools_technologies": [
+    "JIRA",
+    "Confluence",
+    "Microsoft Project",
+    "Slack",
+    "Google Workspace"
+  ],
+  "languages_required": [
+    "English",
+    "German (preferred)"
+  ],
+  "salary_range": {
+    "currency": "USD",
+    "min": 3500,
+    "max": 6000,
+    "period": "month"
+  },
+  "posted_at": "2025-11-06",
+  "valid_until": "2026-01-15"
+}

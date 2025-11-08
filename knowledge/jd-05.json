@@ -1,0 +1,60 @@
+{
+  "job_id": "JD-002",
+  "title": "AI Engineer",
+  "department": "Machine Learning & AI",
+  "employment_type": "full-time",
+  "location": {
+    "country": "Saudi Arabia",
+    "city": "Riyadh",
+    "remote": true
+  },
+  "reporting_to": "Lead Data Scientist",
+  "summary": "We are seeking a talented AI Engineer to design, train, and deploy machine learning and generative AI models that power intelligent automation and data-driven insights across our enterprise applications.",
+  "responsibilities": [
+    "Develop, train, and fine-tune machine learning and deep learning models using Python frameworks.",
+    "Implement model pipelines for data preprocessing, training, and evaluation.",
+    "Integrate ML models into production systems via RESTful APIs or microservices.",
+    "Collaborate with data engineers to optimize data pipelines and feature stores.",
+    "Research and experiment with state-of-the-art AI techniques including transformers, embeddings, and LLMs."
+  ],
+  "must_have_skills": [
+    "Python",
+    "TensorFlow or PyTorch",
+    "Machine Learning",
+    "Deep Learning",
+    "Data Preprocessing"
+  ],
+  "nice_to_have_skills": [
+    "LLMs and Prompt Engineering",
+    "MLOps (SageMaker, MLflow)",
+    "FastAPI or Flask",
+    "AWS or GCP",
+    "Vector Databases (Pinecone, FAISS)"
+  ],
+  "experience_required_years": 3,
+  "education_required": [
+    "Bachelor’s or Master’s degree in Computer Science, Artificial Intelligence, or related field"
+  ],
+  "certifications_required": [
+    "AI/ML Certification (AWS, Google, or equivalent) – preferred"
+  ],
+  "tools_technologies": [
+    "Python",
+    "PyTorch",
+    "TensorFlow",
+    "FastAPI",
+    "AWS SageMaker",
+    "Docker"
+  ],
+  "languages_required": [
+    "English"
+  ],
+  "salary_range": {
+    "currency": "USD",
+    "min": 3000,
+    "max": 6000,
+    "period": "month"
+  },
+  "posted_at": "2025-11-04",
+  "valid_until": "2025-12-31"
+}

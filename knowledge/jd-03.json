@@ -1,0 +1,60 @@
+{
+  "job_id": "JD-003",
+  "title": "Mid-level DevOps Engineer",
+  "department": "Infrastructure & Operations",
+  "employment_type": "full-time",
+  "location": {
+    "country": "United Arab Emirates",
+    "city": "Dubai",
+    "remote": false
+  },
+  "reporting_to": "Head of Infrastructure",
+  "summary": "We are looking for a proactive DevOps Engineer to build and manage scalable CI/CD pipelines, automate cloud infrastructure, and ensure the reliability and performance of production systems.",
+  "responsibilities": [
+    "Design, implement, and maintain CI/CD pipelines for microservices and data workflows.",
+    "Automate infrastructure provisioning and configuration using Terraform or CloudFormation.",
+    "Monitor and maintain system uptime, scalability, and performance.",
+    "Collaborate with developers and data engineers to improve release cycles.",
+    "Implement security best practices and manage secrets in production environments."
+  ],
+  "must_have_skills": [
+    "Linux Administration",
+    "Docker",
+    "CI/CD Pipelines",
+    "AWS or Azure",
+    "Terraform"
+  ],
+  "nice_to_have_skills": [
+    "Kubernetes",
+    "Prometheus",
+    "Grafana",
+    "Python or Bash scripting",
+    "GitHub Actions or Jenkins"
+  ],
+  "experience_required_years": 2,
+  "education_required": [
+    "Bachelor’s degree in Computer Science, Information Technology, or related field"
+  ],
+  "certifications_required": [
+    "AWS Certified DevOps Engineer – Associate (preferred)"
+  ],
+  "tools_technologies": [
+    "Docker",
+    "Terraform",
+    "AWS",
+    "GitHub Actions",
+    "Prometheus",
+    "Grafana"
+  ],
+  "languages_required": [
+    "English"
+  ],
+  "salary_range": {
+    "currency": "USD",
+    "min": 1500,
+    "max": 4500,
+    "period": "month"
+  },
+  "posted_at": "2025-11-05",
+  "valid_until": "2025-12-31"
+}
