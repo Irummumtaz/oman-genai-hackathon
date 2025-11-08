@@ -25,6 +25,7 @@ class HRCrew():
 
     def __init__(self) -> None:
         jobs = os.listdir("knowledge/")
+        print("knowledge:", jobs)
         self.job_sources = JSONKnowledgeSource(file_paths=jobs)
     
     # ===================== AGENTS =====================
@@ -55,12 +56,14 @@ class HRCrew():
         return Agent(
             config=self.agents_config['job_matcher'],
             verbose=True,
+            knowledge_sources=[self.job_sources],
             tools=[
                 DirectoryReadTool(),
                 FileReadTool(),
                 FileWriterTool(),
             ],
-            knowledge_sources=[self.job_sources],
+            reasoning=True,
+            max_reasoning_attempts=3,
         )
     # ===================== TASKS =====================
     @task
@@ -86,7 +89,7 @@ class HRCrew():
     def job_matching_task(self) -> Task:
         return Task(
             config=self.tasks_config['job_matching_task'],
-            output_json=JobMatchResult
+            output_json=JobMatchResult,
             )
     # ===================== CREW =====================
     @crew
