@@ -5,7 +5,7 @@ cv_reader_task:
   description: >
     1. Read all PDF CV files from the directory {pdf_files_path}.
     2. For each PDF CV file, extract its text content.
-    3. Save the extracted text to a new .txt file in the directory {txt_output_path}.
+    3. Save the extracted text to a new .txt file in the directory {txt_files_path}.
 
     Use the following tools:
     - DirectoryReadTool: to list all PDF files in the specified folder.
@@ -14,67 +14,46 @@ cv_reader_task:
     Ensure that the output .txt files are named identically to their source PDF files,
     but with a .txt extension, and are stored in the specified output directory.
     DO NOT READ THE CONTENT, ONLY PASS IT TO THE TOOL, AND DO NOT GENERATE ANY ADDITIONAL OUTPUT.
+  
   expected_output: >
-    The word "Completed" after all PDF files are converted to txt files in {txt_output_path}  
+    Completed
+  
   agent: cv_reader
 
-# #--------------------------------------------------
-# # CV JSON Builder Task
-# #--------------------------------------------------
-# cv_json_builder_task:
-#   description: >
-#     Read the cleaned CV text file from the directory {txt_output_path} and
-#     convert each CV text into a structured JSON profile that matches the
-#     CVData schema. For every .txt CV file found, create a corresponding
-#     .json file in the same or specified output directory.
+#--------------------------------------------------
+# CV Analyzer Task
+#--------------------------------------------------
+cv_analyzer_task:
+  description: >
+    1. Use the DirectoryReadTool to list all text-based CV files from the directory {txt_files_path}.
+    2. Read its content using the FileReadTool.
+    3. Analyze and interpret the content using the cv_analyzer agent to extract, structure, and enrich all relevant details.
+    4. You should strictly follow the CandidateCV schema.
+    5. Write your evaluative insights in agent_assessment section.
+    6. If certain information is missing or unclear, the agent should infer it logically or leave.
+    7. after processing the CV, you should save it in {json_files_path}.
+    7. Once all CV files have been successfully processed and saved, return the word "Completed".
 
-#     Use the CV content to extract:
-#     - personal_info (name, email, phone, location if available)
-#     - summary
-#     - skills (grouped into technical/soft if possible)
-#     - experience (job title, company, dates, bullets)
-#     - education
-#     - certifications
-#     - projects
-#     - languages
-#     - side_notes (any leftover info)
+  expected_output: >
+    Completed
 
-#     Keep "source_file" equal to the original CV file name, and save it in the (/preprocessed-CVs) folder.
-#   expected_output: >
-#     A JSON file per CV text found, each conforming to the CVData schema.
-#   agent: cv_json_builder
+  agent: cv_analyzer
 
-# #--------------------------------------------------
-# # Task: Check Candidate Eligibility
-# #--------------------------------------------------
-# check_candidate_eligibility_task:
-#   description: >
-#     Compare the candidate profile JSON (CVData) with the job description JSON.
-#     Determine if the candidate is appropriate for this job.
+#--------------------------------------------------
+# Matcher Task
+#--------------------------------------------------
+matcher_task:
+  description: >
+    1. Use the DirectoryReadTool to list all text-based CV files from the directory {txt_files_path}.
+    2. Read its content using the FileReadTool.
+    3. Analyze and interpret the content using the cv_analyzer agent to extract, structure, and enrich all relevant details.
+    4. You should strictly follow the CandidateCV schema.
+    5. Write your evaluative insights in agent_assessment section.
+    6. If certain information is missing or unclear, the agent should infer it logically or leave.
+    7. after processing the CV, you should save it in {json_files_path}.
+    7. Once all CV files have been successfully processed and saved, return the word "Completed".
 
-#     Steps to follow:
-#     1. Read the candidate JSON (fields: personal_info, summary, skills,
-#        experience, education, certifications, languages).
-#     2. Read the job description JSON (fields: must_have_skills, nice_to_have_skills,
-#        experience_required_years, education_required, location).
-#     3. Check must-have skills: if any are completely missing from the candidate, flag them.
-#     4. Check experience: compare candidate total relevant years to job requirement.
-#     5. Check education: if the JD requires a specific degree and the candidate doesn't have it, flag it.
-#     6. Based on these checks, decide: "APPROPRIATE" or "NOT APPROPRIATE".
+  expected_output: >
+    Completed
 
-#     This task is part of an automated HR pipeline and the output will be used
-#     to filter candidates before human review.
-#     {jd_file_path} contains the job description JSON file path.
-#     and store the result in a json file.
-#     and save the output file to (/results) folder.
-#   expected_output: >
-#     A JSON object with the following structure:
-    
-#       "decision": "APPROPRIATE" | "NOT_APPROPRIATE",
-#       "match_score": <number 0-100>,
-#       "missing_must_have_skills": [],
-#       "missing_education": false,
-#       "experience_gap_years": 0,
-#       "notes": "short explanation of the decision"
-    
-#   agent: cv_eligibility_checker
+  agent: cv_analyzer
