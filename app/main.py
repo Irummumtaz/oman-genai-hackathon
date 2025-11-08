@@ -8,7 +8,8 @@ from app.tools.pdf_reader import PDFReaderTool
 def run():
 
     inputs = {"pdf_files_path":"PDFCVs",
-              "txt_output_path": "preprocessed-CVs"
+              "txt_files_path": "preprocessed-CVs",
+              "json_files_path":"processed-CVs"
               }    
     print(f"Running HRCrew with inputs: {inputs}")
     try:

@@ -1,4 +1,5 @@
 
+import os
 from crewai import Agent, Crew, Process, Task
 from typing import Any, Dict, List
 from crewai.project import CrewBase, agent, crew, task
@@ -9,6 +10,8 @@ from crewai_tools import (
     DirectoryReadTool,
 )
 from app.tools.pdf_reader import PDFReaderTool
+from .model import CandidateCV
+from crewai.knowledge.source.json_knowledge_source import JSONKnowledgeSource
 
 
 
@@ -17,13 +20,14 @@ from app.tools.pdf_reader import PDFReaderTool
 # ------------------------------------------------------------
 @CrewBase
 class HRCrew():
-    """HR Crew that: PDF -> TXT -> JSON -> Eligibility"""
-
     agents: List[BaseAgent]
     tasks: List[Task]
 
+    def __init__(self) -> None:
+        jobs = os.listdir("knowledge/")
+        self.job_sources = JSONKnowledgeSource(file_paths=jobs)
+    
     # ===================== AGENTS =====================
-
     @agent
     def cv_reader(self) -> Agent:
         return Agent(
@@ -33,12 +37,20 @@ class HRCrew():
                 DirectoryReadTool(),
                 PDFReaderTool(),
             ],
-            llm = None,
-            reasoning=False
         )
-
+    @agent
+    def cv_analyzer(self) -> Agent:
+        return Agent(
+            config=self.agents_config['cv_analyzer'],
+            verbose=True,
+            tools=[
+                DirectoryReadTool(),
+                FileReadTool(),
+                FileWriterTool(),
+            ],
+        )
+    
     # ===================== TASKS =====================
-
     @task
     def cv_reader_task(self) -> Task:
         """
@@ -48,9 +60,18 @@ class HRCrew():
         return Task(
             config=self.tasks_config['cv_reader_task'],
             )
-
+    @task
+    def cv_analyzer_task(self) -> Task:
+        """
+        Task 1: TXT -> JSON
+        Uses {output_txt} and {output_json} from inputs.
+        """
+        return Task(
+            config=self.tasks_config['cv_analyzer_task'],
+            output_json=CandidateCV
+            )
+    
     # ===================== CREW =====================
-
     @crew
     def crew(self) -> Crew:
         """Creates the HR crew with 3 sequential tasks."""
