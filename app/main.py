@@ -2,6 +2,11 @@ import argparse
 import os
 from app.crew import HRCrew
 from app.tools.pdf_reader import PDFReaderTool
+from app.logging_config import setup_logging, get_logger
+
+# Setup logging
+setup_logging()
+logger = get_logger(__name__)
 
 
 
@@ -11,8 +16,8 @@ def run():
               "txt_files_path": "preprocessed-CVs",
               "json_files_path":"processed-CVs",
               "matches_output_path":"job-matches-results"
-              }    
-    print(f"Running HRCrew with inputs: {inputs}")
+              }
+    logger.info("Running HRCrew", extra={"extra_fields": {"inputs": inputs}})
     try:
         results = HRCrew().crew().kickoff(inputs=inputs)
         return results
@@ -21,6 +26,5 @@ def run():
 
 if __name__ == "__main__":
     results = run()
-    print("Crew run completed.")
-    print("\n====================\n")
-    print(f"\nToken Usage:\n{results.token_usage}\n")
+    logger.info("Crew run completed")
+    logger.info("Token usage report", extra={"extra_fields": {"token_usage": str(results.token_usage)}})

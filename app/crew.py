@@ -12,6 +12,9 @@ from crewai_tools import (
 from app.tools.pdf_reader import PDFReaderTool
 from .model import CandidateCV, JobMatchResult
 from crewai.knowledge.source.json_knowledge_source import JSONKnowledgeSource
+from app.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 
@@ -25,7 +28,7 @@ class HRCrew():
 
     def __init__(self) -> None:
         jobs = os.listdir("knowledge/")
-        print("knowledge:", jobs)
+        logger.info("Loaded knowledge sources", extra={"extra_fields": {"knowledge_files": jobs}})
         self.job_sources = JSONKnowledgeSource(file_paths=jobs)
     
     # ===================== AGENTS =====================
