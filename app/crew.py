@@ -1,3 +1,10 @@
+# ------------------------------------------------------------
+# TRAINEE EXERCISE: Multi-Agent HR System with CrewAI
+# ------------------------------------------------------------
+# TODO: Implement agents, tasks, and crew
+# Reference: https://docs.crewai.com/core-concepts/Agents/
+#            https://docs.crewai.com/core-concepts/Tasks/
+# ------------------------------------------------------------
 
 import os
 from crewai import Agent, Crew, Process, Task
@@ -17,89 +24,63 @@ from app.logging_config import get_logger
 logger = get_logger(__name__)
 
 
-
-# ------------------------------------------------------------
-# Crew
-# ------------------------------------------------------------
 @CrewBase
-class HRCrew():
+class HRCrew:
+    """HR Crew with three agents: CV Reader, CV Analyzer, Job Matcher"""
+
     agents: List[BaseAgent]
     tasks: List[Task]
 
     def __init__(self) -> None:
-        jobs = os.listdir("knowledge/")
-        logger.info("Loaded knowledge sources", extra={"extra_fields": {"knowledge_files": jobs}})
-        self.job_sources = JSONKnowledgeSource(file_paths=jobs)
-    
+        """Initialize the crew and load knowledge sources."""
+        # TODO: Load job descriptions from knowledge/ folder
+        # TODO: Create JSONKnowledgeSource and assign to self.job_sources
+        pass
+
     # ===================== AGENTS =====================
+
     @agent
     def cv_reader(self) -> Agent:
-        return Agent(
-            config=self.agents_config['cv_reader'],
-            verbose=True,
-            tools=[
-                DirectoryReadTool(),
-                PDFReaderTool(),
-            ],
-        function_calling_llm="gpt-4o-mini"
-        )
+        """CV Reader Agent - extracts text from PDF files."""
+        # TODO: Return Agent with config and tools
+        pass
+
     @agent
     def cv_analyzer(self) -> Agent:
-        return Agent(
-            config=self.agents_config['cv_analyzer'],
-            verbose=True,
-            tools=[
-                DirectoryReadTool(),
-                FileReadTool(),
-                FileWriterTool(),
-            ],
-        )
+        """CV Analyzer Agent - analyzes and structures CV data."""
+        # TODO: Return Agent with config and tools
+        pass
+
     @agent
     def job_matcher(self) -> Agent:
-        return Agent(
-            config=self.agents_config['job_matcher'],
-            verbose=True,
-            knowledge_sources=[self.job_sources],
-            tools=[
-                DirectoryReadTool(),
-                FileReadTool(),
-                FileWriterTool(),
-            ],
-            reasoning=True,
-            max_reasoning_attempts=3,
-        )
+        """Job Matcher Agent - matches candidates to jobs."""
+        # TODO: Return Agent with config, tools, and knowledge sources
+        pass
+
     # ===================== TASKS =====================
+
     @task
     def cv_reader_task(self) -> Task:
-        """
-        Task 1: PDF -> TXT
-        Uses {folder_path} and {output_path} from inputs.
-        """
-        return Task(
-            config=self.tasks_config['cv_reader_task'],
-            )
+        """Task: PDF → TXT conversion"""
+        # TODO: Return Task with config
+        pass
+
     @task
     def cv_analyzer_task(self) -> Task:
-        """
-        Task 1: TXT -> JSON
-        Uses {output_txt} and {output_json} from inputs.
-        """
-        return Task(
-            config=self.tasks_config['cv_analyzer_task'],
-            output_json=CandidateCV
-            )
+        """Task: TXT → Structured JSON"""
+        # TODO: Return Task with config and output_json
+        pass
+
     @task
     def job_matching_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['job_matching_task'],
-            output_json=JobMatchResult,
-            )
+        """Task: Match candidates to jobs"""
+        # TODO: Return Task with config and output_json
+        pass
+
     # ===================== CREW =====================
+
     @crew
     def crew(self) -> Crew:
-        """Creates the HR crew with 3 sequential tasks."""
-        return Crew(
-            agents=self.agents,
-            tasks=self.tasks,
-            verbose=True,
-        )
+        """Assemble the crew with agents and tasks."""
+        # TODO: Return Crew with agents and tasks
+        pass

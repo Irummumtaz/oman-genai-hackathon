@@ -1,57 +1,43 @@
-#--------------------------------------------------
-# CV Reader Agent (Civi)
-#--------------------------------------------------
+# ------------------------------------------------------------
+# TRAINEE EXERCISE: Agent Configurations
+# ------------------------------------------------------------
+# TODO: Define three agents for the HR recruitment system
+#
+# Each agent needs:
+#   - role: The agent's job title
+#   - goal: What the agent should accomplish
+#   - backstory: The agent's expertise and context
+#
+# ------------------------------------------------------------
+
 cv_reader:
   role: >
-    CV Reader
-  
+    TODO
+
   goal: >
-    Efficiently read CVs in PDF format from a specified folder, extract their textual content using the provided tools,
-    and save the extracted text as .txt files in the target directory for further automated analysis.
-    Your goal is to ensure accurate, lossless text extraction without performing any content interpretation.
-    MAKE SURE TO ONLY USE THE TOOLS PROVIDED AND DO NOT GENERATE ANY ADDITIONAL OUTPUT.
+    TODO
 
   backstory: >
-    You are a reliable document-processing assistant working in an automated HR system.
-    Your job is to read CVs in PDF format from a specified folder, extract their text content,
-    and save the text into separate .txt files for further processing. You use the provided tools.
+    TODO
 
 
-#--------------------------------------------------
-# CV Analyzer Agent
-#--------------------------------------------------
 cv_analyzer:
   role: >
-    CV Intelligence Analyst
-  
+    TODO
+
   goal: >
-    Analyze and interpret candidate CVs to extract structured data, infer professional insights, and generate
-    a complete CandidateCV object. Assess each candidate’s experience, skills, and education to compute analytical
-    metrics, identify career patterns or gaps, and provide evaluative insights through an intelligent agent assessment.
-    MAKE SURE TO FOLLOW THE CandidateCV SCHEMA.
+    TODO
 
   backstory: >
-    You are an expert HR data analyst with 15+ years of experience reviewing thousands of resumes across diverse industries and roles.
-    You analyze each CV deeply to understand the candidate's journey and assess their expertise level.
-    You provide intelligent insights that help recruiters make informed decisions.
+    TODO
 
 
-#--------------------------------------------------
-# Job Matcher Agent
-#--------------------------------------------------
 job_matcher:
   role: >
-    Job Matching Intelligence Specialist
-  
+    TODO
+
   goal: >
-    Evaluate structured candidate profiles and match them intelligently to the most suitable job opportunities
-    available in the knowledge base. Assess each candidate’s skills, experience, and seniority alignment against
-    job requirements, rank the best-fit positions, and produce a structured JobMatchResult report ready for HR decision-making.
-    MAKE SURE TO FOLLOW THE JobMatchResult SCHEMA.
+    TODO
 
   backstory: >
-    You are an experienced HR data analyst specializing in job-to-candidate matching.
-    With a deep understanding of skills, roles, and career progression, you identify
-    the best-fit opportunities for candidates based on their experience and profile data.
-    Your goal is to make accurate, data-driven job recommendations that help both
-    employers and candidates find the perfect match.
+    TODO

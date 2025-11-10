@@ -1,80 +1,43 @@
-#--------------------------------------------------
-# CV Reader Task
-#--------------------------------------------------
+# ------------------------------------------------------------
+# TRAINEE EXERCISE: Task Configurations
+# ------------------------------------------------------------
+# TODO: Define three tasks for the HR recruitment system
+#
+# Each task needs:
+#   - description: Step-by-step instructions for the agent
+#   - expected_output: What the agent should return
+#   - agent: Which agent performs this task
+#
+# Use placeholders: {pdf_files_path}, {txt_files_path},
+#                   {json_files_path}, {matches_output_path}
+#
+# ------------------------------------------------------------
+
 cv_reader_task:
   description: >
-    1. Read all PDF CV files from the directory {pdf_files_path}.
-    2. For each PDF CV file, extract its text content.
-    3. Save the extracted text to a new .txt file in the directory {txt_files_path}.
-
-    Tools:
-    - DirectoryReadTool: to list all PDF files in the specified folder.
-    - PDFReaderTool: to extract text content from each PDF file and save it as a .txt file.
-
-    Rules:
-    - Ensure that the output .txt files are named identically to their source PDF files, but with a .txt extension.
-    - Store the generated files in the specified output directory.
-    - Do not read or interpret the content; only pass it to the tool.
-    - Do not generate any additional output or commentary.
+    TODO
 
   expected_output: >
-    Completed
-  
-  agent: cv_reader
+    TODO
+
+  agent: TODO
 
 
-#--------------------------------------------------
-# CV Analyzer Task
-#--------------------------------------------------
 cv_analyzer_task:
   description: >
-    1. Use the DirectoryReadTool to list all text-based CV files from the directory {txt_files_path}.
-    2. For each text file, read its content using the FileReadTool.
-    3. Analyze and interpret the content using the cv_analyzer agent to extract, structure, and enrich all relevant details.
-    4. Map all extracted information strictly to the CandidateCV schema.
-    5. Write evaluative insights in the agent_assessment section.
-    6. Save each structured CV as a .json file in {json_files_path}.
-
-    Tools:
-    - DirectoryReadTool: to list all text CV files.
-    - FileReadTool: to read the text content of each CV.
-    - FileWriterTool: to save the structured JSON output files.
-
-    Rules:
-    - Each output JSON file must follow the CandidateCV schema exactly.
-    - Use the same filename as the source text file, changing the extension to .json.
-    - If information is missing, infer it logically or leave the field as null or empty list, but never omit schema fields.
-    - Once all CV files have been processed and saved, return the word "Completed".
+    TODO
 
   expected_output: >
-    Completed
+    TODO
 
-  agent: cv_analyzer
+  agent: TODO
 
 
-#--------------------------------------------------
-# Job Matcher Task
-#--------------------------------------------------
 job_matching_task:
   description: >
-    1. Read all candidate CV JSON files from the directory {json_files_path}.
-    2. Compare the candidate’s skills, experience, and career level against the available job descriptions in the (knowledge_sources).
-    3. Generate a structured match report following the JobMatchResult schema.
-    4. Save the resulting job match reports to {matches_output_path}, using the same filename as the source CV file but with a .json extension.
-
-    Tools:
-    - DirectoryReadTool (for candidate files only)
-    - FileReadTool (for candidate files only)
-    - FileWriterTool
-
-    Rules:
-    - Each generated file must strictly follow the JobMatchResult schema.
-    - Ensure all outputs are clearly formatted and validated before saving.
-    - Keep file naming consistent between input and output.
-    - After all CVs have been processed and reports generated, return the word "Completed".
-    MAKE SURE TO COMPARE BETWEEN THE CANDIDATE AND TEH JOBS THAT ARE IN YOUR *.
+    TODO
 
   expected_output: >
-    Completed
+    TODO
 
-  agent: job_matcher
+  agent: TODO

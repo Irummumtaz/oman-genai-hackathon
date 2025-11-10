@@ -3,6 +3,7 @@ from typing import List, Optional, Literal
 from datetime import date
 from enum import Enum
 
+
 class EducationLevel(str, Enum):
     HIGH_SCHOOL = "high_school"
     ASSOCIATE = "associate"
@@ -12,6 +13,7 @@ class EducationLevel(str, Enum):
     DIPLOMA = "diploma"
     CERTIFICATE = "certificate"
 
+
 class EmploymentType(str, Enum):
     FULL_TIME = "full_time"
     PART_TIME = "part_time"
@@ -20,11 +22,13 @@ class EmploymentType(str, Enum):
     INTERNSHIP = "internship"
     TEMPORARY = "temporary"
 
+
 class SkillLevel(str, Enum):
     BEGINNER = "beginner"
     INTERMEDIATE = "intermediate"
     ADVANCED = "advanced"
     EXPERT = "expert"
+
 
 class ContactInformation(BaseModel):
     """Contact details of the candidate"""
@@ -47,7 +51,7 @@ class Education(BaseModel):
     end_date: Optional[date] = Field(None, description="End date or expected graduation")
     gpa: Optional[float] = Field(None, ge=0.0, le=4.0, description="GPA on 4.0 scale")
     location: Optional[str] = Field(None, description="Location of institution")
-    
+
 
 class WorkExperience(BaseModel):
     """Professional work experience entry"""
@@ -69,13 +73,14 @@ class Skill(BaseModel):
     name: str = Field(..., description="Skill name")
     category: Optional[str] = Field(None, description="Category (e.g., Programming, Design, Management)")
     level: Optional[SkillLevel] = Field(None, description="Proficiency level")
-    
+
 
 class Certification(BaseModel):
     """Professional certification or license"""
     name: str = Field(..., description="Certification name")
     issuing_organization: str = Field(..., description="Organization that issued certification")
     issue_date: Optional[date] = Field(None, description="Date obtained")
+
 
 class Project(BaseModel):
     """Personal or professional project"""
@@ -85,12 +90,14 @@ class Project(BaseModel):
     technologies: List[str] = Field(default_factory=list, description="Technologies used")
     url: Optional[HttpUrl] = Field(None, description="Project URL or demo link")
 
+
 class Language(BaseModel):
     """Language proficiency"""
     language: str = Field(..., description="Language name")
     proficiency: Literal["native", "fluent", "professional", "intermediate", "basic"] = Field(
         ..., description="Proficiency level"
     )
+
 
 class VolunteerExperience(BaseModel):
     """Volunteer work or community service"""
@@ -99,7 +106,8 @@ class VolunteerExperience(BaseModel):
     start_date: Optional[date] = Field(None, description="Start date")
     end_date: Optional[date] = Field(None, description="End date")
     description: Optional[str] = Field(None, description="Description of work")
- 
+
+
 class CVAnalysis(BaseModel):
     """Metadata and analysis of the CV"""
     total_years_experience: Optional[float] = Field(None, description="Calculated total years of work experience")
@@ -114,6 +122,7 @@ class CVAnalysis(BaseModel):
     gap_details: Optional[List[str]] = Field(default_factory=list, description="Details about employment gaps")
     job_hopping_score: Optional[float] = Field(None, ge=0, le=10, description="Job stability score (0-10)")
     keyword_density: Optional[dict] = Field(default_factory=dict, description="Important keywords and frequency")
+
 
 class AgentAssessment(BaseModel):
     """Intelligent AI-driven assessment and recommendations for candidate evaluation."""
@@ -217,46 +226,47 @@ class AgentAssessment(BaseModel):
         ),
     )
 
+
 class CandidateCV(BaseModel):
     """Complete structured CV/Resume data"""
-    
+
     # Core Information
     contact_information: ContactInformation
-    
+
     # Professional Summary
     summary: Optional[str] = Field(None, description="Professional summary or objective")
-    
+
     # Experience & Education
     work_experience: List[WorkExperience] = Field(default_factory=list, description="Work history")
     education: List[Education] = Field(default_factory=list, description="Educational background")
-    
+
     # Skills
     skills: List[Skill] = Field(default_factory=list, description="All skills")
-    
+
     # Additional Sections
     certifications: List[Certification] = Field(default_factory=list, description="Certifications and licenses")
     projects: List[Project] = Field(default_factory=list, description="Notable projects")
     languages: List[Language] = Field(default_factory=list, description="Language proficiencies")
     volunteer_experience: List[VolunteerExperience] = Field(default_factory=list, description="Volunteer work")
-    
+
     # Additional Information
     interests: Optional[List[str]] = Field(default_factory=list, description="Personal interests or hobbies")
     references: Optional[str] = Field(None, description="References note (usually 'Available upon request')")
-    
+
     # Analysis
     cv_analysis: Optional[CVAnalysis] = Field(None, description="Automated CV analysis")
-    
+
     # Agent Intelligence Assessment
     agent_assessment: Optional[AgentAssessment] = Field(
-        None, 
+        None,
         description="Intelligent agent analysis, recommendations, and hiring decision support"
     )
-    
+
     # Metadata
     source_file: Optional[str] = Field(None, description="Original file name")
 
 
-#------------------------------------------------------------
+# ------------------------------------------------------------
 
 from pydantic import BaseModel, Field
 from typing import List, Literal
@@ -272,40 +282,40 @@ class ScoreBreakdown(BaseModel):
 
 class JobMatchResult(BaseModel):
     """Result of matching a candidate CV against a job description"""
-    
+
     # Basic Information
     candidate_name: str = Field(..., description="Full name of the candidate")
     job_title: str = Field(..., description="Job title being matched against")
-    
+
     # Overall Score
     overall_score: float = Field(..., ge=0, le=100, description="Total match score out of 100")
-    
+
     # Score Breakdown
     breakdown: ScoreBreakdown = Field(..., description="Detailed scoring breakdown by category")
-    
+
     # Skills Analysis
     skills_matched: List[str] = Field(default_factory=list, description="Required skills the candidate has")
     skills_missing: List[str] = Field(default_factory=list, description="Required skills the candidate lacks")
     skills_match_percentage: float = Field(..., ge=0, le=100, description="Percentage of required skills matched")
-    
+
     # Experience Analysis
     candidate_experience_years: float = Field(..., ge=0, description="Candidate's total years of experience")
     required_experience_years: float = Field(..., ge=0, description="Required years of experience for job")
     experience_gap: str = Field(..., description="Description of experience gap or fit")
-    
+
     # Education & Career Level
     education_match: bool = Field(..., description="Whether education requirements are met")
     career_level_match: Literal["exact_match", "one_level_off", "two_plus_levels_off"] = Field(
         ..., description="How well candidate's career level matches job"
     )
-    
+
     # Recommendation
     recommendation: str = Field(
-        ..., 
+        ...,
         min_length=10,
         description="Brief 2-3 sentence recommendation summary"
     )
-    
+
     # Match Category (for classification)
     match_category: Literal["strong_match", "moderate_match", "weak_match"] = Field(
         ..., description="Overall match category: strong (≥80), moderate (60-79), weak (<60)"
