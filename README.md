@@ -46,8 +46,6 @@ This project is designed as a **hands-on training exercise** for trainees learni
 5. [How to Test](#-how-to-test)
 6. [Understanding the Output](#-understanding-the-output)
 7. [Project Structure](#-project-structure)
-8. [How It Works](#-how-it-works)
-9. [Troubleshooting](#-troubleshooting)
 
 ---
 
