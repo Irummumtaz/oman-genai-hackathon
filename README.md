@@ -6,115 +6,64 @@ This project is designed as a **hands-on training exercise** for trainees learni
 
 ---
 
+## 🚀 Quick Start
+
+**Want to run it right away?** Follow these 5 simple steps:
+
+1. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Set up your API key:**
+   - Create a `.env` file in the project root
+   - Add your API key (see [Configuration](#-configuration) below)
+
+3. **Prepare test data:**
+   - Add PDF resumes to `CV/` folder
+   - Add job descriptions (JSON) to `knowledge/` folder
+
+4. **Run the application:**
+   ```bash
+   python -m app.main
+   ```
+
+5. **Check results:**
+   - `preprocessed-CVs/` - Extracted text files
+   - `processed-CVs/` - Structured candidate data
+   - `job-matches-results/` - Match scores and recommendations
+
+**That's it!** The application will process all CVs and generate match reports automatically.
+
+---
+
 ## 📋 Table of Contents
 
-1. [Overview](#overview)
-2. [What Does It Do?](#what-does-it-do)
-3. [Prerequisites](#prerequisites)
-4. [Installation](#installation)
-5. [Configuration](#configuration)
-6. [Running the Application](#running-the-application)
-7. [Project Structure](#project-structure)
-8. [How It Works](#how-it-works)
-9. [For Trainees](#for-trainees)
-10. [Troubleshooting](#troubleshooting)
-
----
-
-## 🎯 Overview
-
-This system uses **three AI agents** working together to:
-1. Extract text from PDF resumes
-2. Analyze and structure candidate data
-3. Match candidates to job openings
-
-**Technology Stack:**
-- CrewAI (Multi-agent orchestration)
-- Python 3.10+
-- OpenAI or Google Gemini (LLM providers)
-- Pydantic (Data validation)
-- PyPDF2 (PDF processing)
-
----
-
-## 🤖 What Does It Do?
-
-**Input:**
-- PDF resumes (in `CV/` folder)
-- Job descriptions in JSON format (in `knowledge/` folder)
-
-**Output:**
-- Extracted text files (`preprocessed-CVs/`)
-- Structured candidate profiles (`processed-CVs/`)
-- Job match reports with scores (`job-matches-results/`)
-
-**Workflow:**
-```
-PDF CVs → Agent 1 (Extract) → TXT Files
-          ↓
-TXT Files → Agent 2 (Analyze) → Structured JSON + Assessment
-          ↓
-JSON + Job Descriptions → Agent 3 (Match) → Match Reports + Scores
-```
+1. [Prerequisites](#-prerequisites)
+2. [Installation](#-installation)
+3. [Configuration](#-configuration)
+4. [How to Run](#-how-to-run)
+5. [How to Test](#-how-to-test)
+6. [Understanding the Output](#-understanding-the-output)
+7. [Project Structure](#-project-structure)
+8. [How It Works](#-how-it-works)
+9. [Troubleshooting](#-troubleshooting)
 
 ---
 
 ## ✅ Prerequisites
 
-Before you begin, ensure you have:
+Before you begin, make sure you have:
 
-### 1. **Python 3.10 or higher**
-Check your Python version:
-```bash
-python --version
-# or
-python3 --version
-```
-
-If you need to install Python, visit: https://www.python.org/downloads/
-
-### 2. **pip (Python package manager)**
-Usually comes with Python. Check with:
-```bash
-pip --version
-```
-
-### 3. **Git** (optional, for cloning)
-```bash
-git --version
-```
-
-### 4. **API Keys** (choose one)
-
-You need an API key from either:
-
-**Option A: OpenAI**
-- Create account at https://platform.openai.com/
-- Generate API key at https://platform.openai.com/api-keys
-- Cost: ~$0.50-2.00 per run (depends on CV count)
-
-**Option B: Google Gemini** (Recommended for trainees)
-- Create account at https://makersuite.google.com/
-- Generate API key at https://makersuite.google.com/app/apikey
-- Cost: Free tier available (2500 requests/month)
+- **Python 3.10 or higher** - Check with `python --version` or `python3 --version`
+- **pip** (Python package manager) - Usually comes with Python
+- **API Key** Will be provided during the session
 
 ---
 
 ## 📦 Installation
 
-### Step 1: Clone or Download the Repository
-
-**Option A: Clone with Git**
-```bash
-git clone <repository-url>
-cd aws-oman-hackathon
-```
-
-**Option B: Download ZIP**
-- Download and extract the ZIP file
-- Open terminal in the extracted folder
-
-### Step 2: Create a Virtual Environment
+### Step 1: Create Virtual Environment
 
 **On macOS/Linux:**
 ```bash
@@ -130,21 +79,13 @@ venv\Scripts\activate
 
 You should see `(venv)` in your terminal prompt.
 
-### Step 3: Install Dependencies
+### Step 2: Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-This installs:
-- `crewai` - Multi-agent framework
-- `crewai-tools` - File and directory tools
-- `pydantic` - Data validation
-- `PyPDF2` - PDF processing
-- `python-dotenv` - Environment variables
-- And other dependencies
-
-**Wait for installation to complete** (1-3 minutes).
+This will install all required packages (CrewAI, PyPDF2, Pydantic, etc.). Wait 1-3 minutes for installation to complete.
 
 ---
 
@@ -152,56 +93,47 @@ This installs:
 
 ### Step 1: Create Environment File
 
-Copy the example environment file:
+Create a `.env` file in the project root directory.
 
 **On macOS/Linux:**
 ```bash
-cp .env.example .env
+touch .env
 ```
 
 **On Windows:**
 ```bash
-copy .env.example .env
+type nul > .env
 ```
 
-### Step 2: Add Your API Keys
+Or simply create it using any text editor.
 
-Open `.env` file in a text editor and add your API keys:
+### Step 2: Add Your API Key
 
-**For OpenAI:**
+Open the `.env` file and add your API key configuration:
 ```bash
-# .env file
 MODEL=openai/gpt-4o-mini
 OPENAI_API_KEY=sk-your-openai-api-key-here
 ```
 
-**For Google Gemini:**
-```bash
-# .env file
-MODEL=gemini/gemini-2.0-flash-exp
-GEMINI_API_KEY=your-gemini-api-key-here
-```
+**Important:** Replace `sk-your-openai-api-key-here` with your actual API key.
 
-**Replace the placeholder values with your actual API keys.**
+### Step 3: Create Required Folders
 
-### Step 3: Prepare Input Data
-
-#### Create Required Folders
 ```bash
 mkdir -p CV knowledge preprocessed-CVs processed-CVs job-matches-results
 ```
 
-#### Add Sample CV (PDF format)
-Place your PDF resume files in the `CV/` folder:
+### Step 4: Add Test Data
+
+#### Add PDF Resumes
+Place at least one PDF resume file in the `CV/` folder:
 ```
 CV/
-├── candidate1.pdf
-├── candidate2.pdf
-└── candidate3.pdf
+└── candidate1.pdf
 ```
 
-#### Add Job Descriptions (JSON format)
-Create JSON files in the `knowledge/` folder.
+#### Add Job Descriptions
+Create at least one JSON file in the `knowledge/` folder with job requirements.
 
 **Example:** `knowledge/ml_engineer.json`
 ```json
@@ -227,15 +159,15 @@ Create JSON files in the `knowledge/` folder.
 
 ---
 
-## 🚀 Running the Application
+## 🏃 How to Run
 
-### Quick Start
+### Basic Run
 
 1. **Activate your virtual environment** (if not already activated):
    ```bash
    # macOS/Linux
    source venv/bin/activate
-
+   
    # Windows
    venv\Scripts\activate
    ```
@@ -245,61 +177,147 @@ Create JSON files in the `knowledge/` folder.
    python -m app.main
    ```
 
-3. **Wait for completion** (5-10 minutes depending on CV count and LLM provider)
+3. **Wait for completion** (typically 5-10 minutes depending on number of CVs and LLM provider)
 
-### What Happens During Execution
+### What You'll See
 
-You'll see logs showing:
+During execution, you'll see logs showing the progress:
+
 ```
 2025-11-10 12:00:00 | INFO | app.main | Running HRCrew
 2025-11-10 12:00:05 | INFO | app.crew | Loaded knowledge sources
 
-# Agent 1: CV Reader
 [Agent] CV Reader is working...
 ✓ Extracted text from candidate1.pdf
 
-# Agent 2: CV Analyzer
 [Agent] CV Analyzer is working...
 ✓ Analyzed candidate1.txt → candidate1.json
 
-# Agent 3: Job Matcher
 [Agent] Job Matcher is working...
 ✓ Matched candidate1 against jobs
 
 2025-11-10 12:10:00 | INFO | app.main | Crew run completed
 ```
 
-### Check Your Results
+The system processes CVs through three agents:
+1. **CV Reader** - Extracts text from PDFs
+2. **CV Analyzer** - Structures and analyzes CV data
+3. **Job Matcher** - Matches candidates to job openings
 
-After completion, check these folders:
+---
 
-1. **`preprocessed-CVs/`** - Extracted text files
-   ```
-   preprocessed-CVs/
-   ├── candidate1.txt
-   ├── candidate2.txt
-   └── candidate3.txt
-   ```
+## 🧪 How to Test
 
-2. **`processed-CVs/`** - Structured candidate data with AI assessment
-   ```
-   processed-CVs/
-   ├── candidate1.json  # Contains: contact, skills, experience, assessment
-   ├── candidate2.json
-   └── candidate3.json
-   ```
+### Test Setup
 
-3. **`job-matches-results/`** - Match scores and recommendations
-   ```
-   job-matches-results/
-   ├── candidate1.json  # Match score, breakdown, recommendation
-   ├── candidate2.json
-   └── candidate3.json
+To verify everything works correctly:
+
+1. **Verify your setup:**
+   ```bash
+   # Check Python version
+   python --version  # Should be 3.10+
+   
+   # Check virtual environment is active
+   # You should see (venv) in your prompt
+   
+   # Check dependencies are installed
+   pip list | grep crewai  # Should show crewai package
    ```
 
-### Sample Output
+2. **Verify configuration:**
+   ```bash
+   # Check .env file exists and has API key
+   cat .env  # macOS/Linux
+   type .env  # Windows
+   ```
 
-**Match Result Example:**
+3. **Verify test data:**
+   ```bash
+   # Check CV folder has at least one PDF
+   ls CV/  # macOS/Linux
+   dir CV  # Windows
+   
+   # Check knowledge folder has at least one JSON
+   ls knowledge/  # macOS/Linux
+   dir knowledge  # Windows
+   ```
+
+### Running a Test
+
+1. **Start with one CV:**
+   - Place a single PDF file in `CV/` folder
+   - Place at least one job description in `knowledge/` folder
+
+2. **Run the application:**
+   ```bash
+   python -m app.main
+   ```
+
+3. **Verify outputs:**
+   After completion, check that these folders contain files:
+   - `preprocessed-CVs/` - Should have `.txt` files
+   - `processed-CVs/` - Should have `.json` files
+   - `job-matches-results/` - Should have `.json` files with match scores
+
+### Expected Test Results
+
+**Success indicators:**
+- ✅ No errors in the terminal output
+- ✅ Files created in all three output folders
+- ✅ JSON files contain valid data (open and check them)
+- ✅ Match scores are between 0-100
+
+**If something fails:**
+- Check the [Troubleshooting](#-troubleshooting) section below
+- Review error messages in the terminal
+- Verify your API key is correct and has credits
+
+---
+
+## 📊 Understanding the Output
+
+### Output Folders
+
+After running, you'll find results in three folders:
+
+#### 1. `preprocessed-CVs/` - Extracted Text Files
+Contains plain text extracted from PDF resumes:
+```
+preprocessed-CVs/
+├── candidate1.txt
+├── candidate2.txt
+└── candidate3.txt
+```
+
+#### 2. `processed-CVs/` - Structured Candidate Data
+Contains structured JSON with candidate information and AI assessment:
+```
+processed-CVs/
+├── candidate1.json
+├── candidate2.json
+└── candidate3.json
+```
+
+Each JSON file contains:
+- Contact information
+- Skills list
+- Work experience
+- Education
+- AI-generated assessment (strengths, weaknesses, rating)
+
+#### 3. `job-matches-results/` - Match Reports
+Contains match scores and recommendations for each candidate:
+```
+job-matches-results/
+├── candidate1.json
+├── candidate2.json
+└── candidate3.json
+```
+
+### Sample Match Result
+
+Open any file in `job-matches-results/` to see a match report:
+
 ```json
 {
   "candidate_name": "John Doe",
@@ -318,28 +336,40 @@ After completion, check these folders:
 }
 ```
 
+**Score Breakdown:**
+- **Overall Score**: 0-100 (higher is better)
+- **Skills Score**: 0-40 (based on required skills match)
+- **Experience Score**: 0-30 (based on years of experience)
+- **Education Score**: 0-20 (based on education level)
+- **Career Level Score**: 0-10 (based on career level fit)
+
+**Match Categories:**
+- `strong_match`: Score 70-100
+- `moderate_match`: Score 50-69
+- `weak_match`: Score 0-49
+
 ---
 
 ## 📂 Project Structure
 
 ```
-aws-oman-hackathon/
+oman-genai-hackathon/
 │
-├── 📄 README.md                 # This file - complete guide
-├── 📄 TRAINEE_GUIDE.md          # For trainees doing the exercise
+├── 📄 README.md                 # This file
+├── 📄 TRAINEE_GUIDE.md          # Detailed guide for trainees
 │
 ├── 📁 app/                      # Main application code
 │   ├── 📁 config/
-│   │   ├── agents.yaml          # Agent configurations (role, goal, backstory)
-│   │   └── tasks.yaml           # Task definitions (description, output)
+│   │   ├── agents.yaml          # Agent configurations
+│   │   └── tasks.yaml           # Task definitions
 │   │
 │   ├── 📁 tools/
 │   │   └── pdf_reader.py        # Custom PDF extraction tool
 │   │
-│   ├── main.py                  # Main entry point
+│   ├── main.py                  # Main entry point (run this!)
 │   ├── crew.py                  # Agent and crew definitions
-│   ├── model.py                 # Pydantic data models
-│   └── logging_config.py        # Structured logging setup
+│   ├── model.py                 # Data models (Pydantic schemas)
+│   └── logging_config.py        # Logging setup
 │
 ├── 📁 CV/                       # INPUT: Place PDF resumes here
 ├── 📁 knowledge/                # INPUT: Place job descriptions (JSON) here
@@ -349,174 +379,8 @@ aws-oman-hackathon/
 ├── 📁 job-matches-results/      # OUTPUT: Match reports
 │
 ├── requirements.txt             # Python dependencies
-├── .env.example                 # Environment template
 └── .env                         # Your API keys (create this)
 ```
-
----
-
-## 🔧 How It Works
-
-### Agent 1: CV Reader
-**Purpose:** Extract text from PDF files
-
-**Input:** PDF files from `CV/` folder
-**Process:** Uses PyPDF2 to extract text content
-**Output:** Text files saved to `preprocessed-CVs/`
-**Tools:** DirectoryReadTool, PDFReaderTool
-
-### Agent 2: CV Analyzer
-**Purpose:** Analyze CVs and create structured data
-
-**Input:** Text files from `preprocessed-CVs/`
-**Process:**
-- Extracts structured data (contact, education, experience, skills)
-- Calculates career metrics (years of experience, career level)
-- Generates intelligent assessment:
-  - Overall rating and score
-  - Strengths and weaknesses
-  - Red flags
-  - Suitable roles
-  - Interview focus areas
-
-**Output:** JSON files in `processed-CVs/` following `CandidateCV` schema
-**Tools:** DirectoryReadTool, FileReadTool, FileWriterTool
-
-### Agent 3: Job Matcher
-**Purpose:** Match candidates to jobs with scoring
-
-**Input:**
-- Candidate JSONs from `processed-CVs/`
-- Job descriptions from `knowledge/` (knowledge base via RAG)
-
-**Process:**
-- Compares candidate skills vs. job requirements
-- Scores match across 4 dimensions:
-  - **Skills Match** (40 points max)
-  - **Experience Match** (30 points max)
-  - **Education Match** (20 points max)
-  - **Career Level Fit** (10 points max)
-- Generates recommendations
-
-**Output:** Match reports in `job-matches-results/` with:
-- Overall score (0-100)
-- Score breakdown
-- Skills matched/missing
-- Match category (strong/moderate/weak)
-- Recommendation text
-
-**Tools:** DirectoryReadTool, FileReadTool, FileWriterTool
-**Knowledge:** RAG-enabled with job descriptions
-
----
-
-## 👨‍🎓 For Trainees
-
-### This is a Training Exercise!
-
-This project is designed to teach you Multi-Agent Systems. The complete working code is provided, but **you can learn by implementing it yourself**.
-
-### Learning Path
-
-1. **Read:** `TRAINEE_GUIDE.md` - Overview and objectives
-2. **Study:** CrewAI documentation to understand patterns
-3. **Review:** `app/model.py` and `app/logging_config.py` as examples
-4. **Implement:** Complete the TODO sections in the code
-
-### What You'll Learn
-
-- ✅ Multi-Agent System architecture
-- ✅ Agent configuration with YAML
-- ✅ Task orchestration and workflows
-- ✅ Custom tool development
-- ✅ RAG (Retrieval-Augmented Generation)
-- ✅ Pydantic data validation
-- ✅ Production logging patterns
-
-### Trainee Files
-
-If you want to do the exercise:
-- Review `agents.yaml` - How agents are configured
-- Review `tasks.yaml` - How tasks are defined
-- Review `crew.py` - How agents and tasks connect
-- Review `pdf_reader.py` - How custom tools work
-- Review `main.py` - How execution flows
-
-### Resources
-
-- `app/logging_config.py` - Structured logging example
-- `app/model.py` - Pydantic schema reference
-- [CrewAI Documentation](https://docs.crewai.com/) - Official guides and API reference
-- [CrewAI Tools](https://docs.crewai.com/core-concepts/Tools/) - Custom tool development
-- [Pydantic Documentation](https://docs.pydantic.dev/) - Data validation
-
----
-
-## 🔍 Troubleshooting
-
-### Common Issues and Solutions
-
-#### 1. **ModuleNotFoundError: No module named 'crewai'**
-**Solution:**
-```bash
-# Make sure virtual environment is activated
-source venv/bin/activate  # macOS/Linux
-venv\Scripts\activate     # Windows
-
-# Reinstall dependencies
-pip install -r requirements.txt
-```
-
-#### 2. **API Key Errors**
-```
-Error: OpenAI API key not found
-```
-**Solution:**
-- Check `.env` file exists
-- Verify API key is correct (no extra spaces)
-- Make sure you're using the right key for your MODEL setting
-
-#### 3. **FileNotFoundError: knowledge/ or CV/**
-**Solution:**
-```bash
-# Create required folders
-mkdir -p CV knowledge preprocessed-CVs processed-CVs job-matches-results
-
-# Add at least one PDF to CV/ folder
-# Add at least one JSON job description to knowledge/ folder
-```
-
-#### 4. **ValidationError from Pydantic**
-```
-ValidationError: field required
-```
-**Solution:**
-- The AI agent couldn't generate valid output
-- Check your job description JSON is valid
-- Try with a simpler CV first
-- Ensure API key has sufficient credits
-
-#### 5. **Slow Execution or Timeouts**
-**Solution:**
-- Use Gemini instead of OpenAI (faster and cheaper)
-- Reduce the number of CVs to process
-- Check your internet connection
-- Verify API rate limits aren't exceeded
-
-#### 6. **Empty or Incorrect Results**
-**Solution:**
-- Check CV PDFs are readable (not scanned images)
-- Verify job descriptions have all required fields
-- Check logs for error messages
-- Enable verbose mode in code for more details
-
-### Getting Help
-
-1. **Check logs** - They show detailed execution info
-2. **Read error messages** - They usually tell you what's wrong
-3. **Review documentation** - CrewAI docs have many examples
-4. **Check existing code** - Look at `model.py` and `logging_config.py`
-5. **Ask instructor** - If you're in a training session
 
 ---
 
@@ -535,51 +399,12 @@ ValidationError: field required
 - Gemini API (for cost-effectiveness)
 
 **Typical Resource Usage:**
+- Processing 1 CV: 1-2 minutes
 - Processing 10 CVs: 5-10 minutes
 - API costs: $0.50-2.00 per run (OpenAI) or Free (Gemini)
 - Disk space: Minimal (<100MB)
 
 ---
 
-## 🎯 Next Steps
 
-After successfully running the application:
 
-1. **Analyze the outputs** - Review the match reports
-2. **Add more CVs** - Test with different profiles
-3. **Customize job descriptions** - Add your own requirements
-4. **Study the code** - Understand how it works
-5. **Experiment** - Modify agent behaviors
-6. **Extend** - Add a 4th agent (e.g., email notifications)
-
----
-
-## 📚 Additional Resources
-
-### Documentation
-- [CrewAI Official Docs](https://docs.crewai.com/)
-- [Pydantic Documentation](https://docs.pydantic.dev/)
-- [PyPDF2 Tutorial](https://pypdf2.readthedocs.io/)
-
-### Learning Materials
-- [Multi-Agent Systems Overview](https://arxiv.org/abs/2308.08155)
-- [LLM-based Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
-- [LangChain Concepts](https://python.langchain.com/docs/get_started/introduction)
-
----
-
-## 📝 License
-
-This project is for educational purposes.
-
----
-
-## 🙏 Credits
-
-Built for training trainees on Multi-Agent Systems with CrewAI.
-
-**Questions?** Contact your instructor or check the documentation files.
-
----
-
-**Happy Learning! 🚀**
