@@ -1,5 +1,14 @@
 from app.crew import HRCrew
+from dotenv import load_dotenv
+import os
 
+# Load environment variables from the .env file
+load_dotenv(".env")
+os.environ["OPENAI_API_KEY"] = ""
+SECRET_KEY = os.getenv('OPENAI_API_KEY')
+
+# Example usage
+print(f'SECRET_KEY: {SECRET_KEY}')
 
 def run():
     inputs = {

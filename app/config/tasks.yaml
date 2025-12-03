@@ -15,29 +15,45 @@
 
 cv_reader_task:
   description: >
-    TODO
+    Read all PDF resumes from the directory at {pdf_files_path}.  
+    Extract key information such as personal details, skills, work experience,
+    education, certifications, and projects. Clean and normalize the extracted
+    text. Save the processed text into {txt_files_path} in structured format
+    (one TXT file per resume). Ensure no information is missed.
 
   expected_output: >
-    TODO
+    A set of clean, structured TXT files stored in {txt_files_path},
+    each containing extracted details from the corresponding resume.
 
-  agent: TODO
+  agent: cv_reader
 
 
 cv_analyzer_task:
   description: >
-    TODO
+    Analyze all structured TXT files located at {txt_files_path}.  
+    Convert the content into structured JSON by identifying skills,
+    experience relevance, seniority, strengths, weaknesses, and job readiness.
+    Create one JSON file per candidate and save them to {json_files_path}.
+
 
   expected_output: >
-    TODO
+    Multiple JSON files stored in {json_files_path}, each representing a
+    complete structured candidate profile with skills, experience summary,
+    strengths, and suitability annotations.
 
-  agent: TODO
+  agent: cv_analyzer
 
 
 job_matching_task:
   description: >
-    TODO
+    Compare all candidate JSON profiles from {json_files_path} against the
+    job descriptions provided. Evaluate skill match percentage, experience
+    alignment, and overall suitability. Generate ranked job-candidate matches
+    and save the results in {matches_output_path} as a consolidated report.
 
   expected_output: >
-    TODO
+    A detailed matching report saved in {matches_output_path} containing
+    ranked candidates for each job, along with match scores and explanations.
 
-  agent: TODO
+
+  agent: job_matcher
